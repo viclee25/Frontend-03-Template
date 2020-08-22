@@ -4,7 +4,6 @@ let currentAttrbute = null;
 let currentTextNode = null;
 let stack = [{ type: "document", children: [] }];
 
-// addCSSRules,把CSS规则暂存到一个数组中
 let rules = [];
 function addCSSRules(text) {
   let ast = css.parse(text);
@@ -353,7 +352,6 @@ function selfCloseStartTag(c) {
 
 module.exports.parseHTML = function parseHTML(html){
   console.log("parseHTML -> html", html)
-  // html标准里把初始状态叫做data
   let state = data;
   for(let c of html){
     state = state(c);
