@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const colors = [
+      {
+        color: 'green',
+        timing: 10,
+      },
+      {
+        color: 'yellow',
+        timing: 2,
+      },
+      {
+        color: 'red',
+        timing: 5,
+      },
+    ];
+    let index = 0;
+    let nowTime = 0;
+    function showColor() {
+      setInterval(() => {
+        console.log(colors[index].color, nowTime);
+        nowTime ++
+        if(nowTime === colors[index].timing){
+          nowTime = 0;
+          if(index === 2) {
+            index = 0;
+          } else {
+            index ++ ;
+          }
+        }
+      }, 1000);
+    }showColor()
+  </script>
+</body>
+</html>
