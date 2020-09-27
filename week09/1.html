@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .cell{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(128, 128, 128, 0.562);
+    border-bottom: solid 1px white;
+    border-right: solid 1px white;
+    vertical-align: top;
+  }
+  #contariner{
+    width: 701px;
+    line-height: 0px;
+  }
+</style>
+<body>
+  <div id="contariner"></div>
+  <button onclick="window.localStorage['map'] = JSON.stringify(map)">save</button>
+</body>
+<script>
+  let map = window.localStorage['map'] ? JSON.parse(window.localStorage['map']) : Array(10000).fill(0);
+  let contariner = document.getElementById("contariner");
+  for (let y = 0; y < 100; y++) {
+    for (let x = 0; x < 100; x++) {
+      let cell = document.createElement('div');
+      cell.classList.add('cell');
+
+      if(map[100 * y + x] == 1) {
+        cell.style.backgroundColor = "black";
+      }
+
+      cell.addEventListener("mousemove", () => {
+        if(mousedown) {
+          if (clear) {
+            cell.style.backgroundColor = "";
+            map[100 * y + x] = 0;
+          } else {
+            cell.style.backgroundColor = "black";
+            map[100 * y + x] = 1;
+          }
+        }
+      })
+      contariner.appendChild(cell);
+    }
+  }
+  let mousedown = false;
+  let clear = false;
+  document.addEventListener("mousedown", e => {
+    mousedown = true;
+    clear = (e.which === 3)
+  })
+  document.addEventListener("mouseup", () =>  mousedown = false )
+  // 禁止菜单弹出
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  
+  function path(map, start, end) {
+   
+  }
+</script>
+</html>

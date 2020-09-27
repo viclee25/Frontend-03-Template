@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  .cell{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 6px;
+    height: 6px;
+    background-color: rgba(128, 128, 128, 0.562);
+    border-bottom: solid 1px white;
+    border-right: solid 1px white;
+    vertical-align: top;
+  }
+  #contariner{
+    width: 701px;
+    line-height: 0px;
+  }
+</style>
+<body>
+  <div id="contariner"></div>
+  <button onclick="window.localStorage['map'] = JSON.stringify(map)">save</button>
+</body>
+<script>
+  let map = window.localStorage['map'] ? JSON.parse(window.localStorage['map']) : Array(10000).fill(0);
+  let contariner = document.getElementById("contariner");
+  for (let y = 0; y < 100; y++) {
+    for (let x = 0; x < 100; x++) {
+      let cell = document.createElement('div');
+      cell.classList.add('cell');
+
+      if(map[100 * y + x] == 1) {
+        cell.style.backgroundColor = "black";
+      }
+
+      cell.addEventListener("mousemove", () => {
+        if(mousedown) {
+          if (clear) {
+            cell.style.backgroundColor = "";
+            map[100 * y + x] = 0;
+          } else {
+            cell.style.backgroundColor = "black";
+            map[100 * y + x] = 1;
+          }
+        }
+      })
+      contariner.appendChild(cell);
+    }
+  }
+  let mousedown = false;
+  let clear = false;
+  document.addEventListener("mousedown", e => {
+    mousedown = true;
+    clear = (e.which === 3)
+  })
+  document.addEventListener("mouseup", () =>  mousedown = false )
+  // 禁止菜单弹出
+  document.addEventListener("contextmenu", e => e.preventDefault());
+  
+  // 使用shift和push作为队列的进栈和出栈的方法
+  // 先把start的四个点传进去，然后逐个的把这个队列里面周围的点全加进去，实现广度优先搜索
+  function path(map, start, end) {
+    // 创建集合（先进先出，一边进一边出）
+    var queue = [start];
+    function insert(x, y) {
+      // 处理边缘情况
+      if(x < 0 || x >= 100 || y < 0 || y >= 100){
+        return;
+      }
+      // 处理边缘情况
+      if(map[y * 100 + x]){
+        return;
+      }
+      map[y * 100 + x] = 2;
+      queue.push([x,y]);
+    }
+    while(queue.length) {
+      // 
+      let [ x, y ] = queue.shift();
+      console.log(x,y);
+      if(x === end[0] && y === end[1]){
+        return true;
+      } 
+      insert(x - 1, y);
+      insert(x, y - 1);
+      insert(x + 1, y);
+      insert(x, y + 1);
+    } 
+    return false;
+  }
+  // path(map, [0,0], [9, 9])
+</script>
+</html>
