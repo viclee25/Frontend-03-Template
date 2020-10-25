@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>proxy的基本用法</title>
+  </head>
+  <body>
+    <script>
+      let object = {
+        a: 1,
+        b: 2,
+      };
+      let po = new Proxy(object, {
+        get(obj, prop, val) {
+          console.log(...arguments);
+          return 0;
+        },
+      });
+    </script>
+  </body>
+</html>
